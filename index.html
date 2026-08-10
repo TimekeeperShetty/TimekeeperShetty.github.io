@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Abhijeet Shetty — Audio DSP & Machine-Listening Engineer</title>
+<meta name="description" content="Abhijeet Shetty builds real-time audio software, spatial-audio pipelines, and machine-listening systems. Brooklyn, NY — MM Music Technology, NYU." />
+
+<!-- =========================================================================
+     EDIT ME: identity + links live here so you can change them in one place.
+     - GITHUB: confirm which handle is canonical (resume uses abhijeetshetty;
+       your old site + Bottle Tarang repo use TimekeeperShetty). Make sure the
+       repos below are PUBLIC.
+     - Project "Code" buttons currently point at your GitHub profile as a safe
+       default. Swap each href to the specific repo URL when ready (marked TODO).
+     - Personal music site is intentionally NOT linked yet (it's being cleaned).
+     ========================================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg:#0d1014;
+    --bg-2:#12161c;
+    --surface:#171c24;
+    --surface-2:#1b212a;
+    --line:#232a34;
+    --line-2:#2c3542;
+    --text:#e9e7e2;
+    --muted:#8b95a3;
+    --muted-2:#6b7482;
+    --accent:#3fb8a0;      /* teal — interactive */
+    --accent-2:#ebb458;    /* amber — data peaks  */
+    --blue:#3c6fb0;
+    --maxw:1080px;
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(63,184,160,.28);color:#fff}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  /* ---- eyebrow / mono labels ---- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(13,16,20,.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--text)}
+  .brand b{color:var(--accent);font-weight:500}
+  .nav-links{display:flex;gap:26px}
+  .nav-links a{font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .18s}
+  .nav-links a:hover{color:var(--text)}
+  @media(max-width:640px){.nav-links{display:none}}
+
+  /* ---------- HERO ---------- */
+  header{padding:96px 0 64px;position:relative;overflow:hidden}
+  .hero-eyebrow{margin-bottom:22px}
+  h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(2.1rem,5.6vw,3.9rem);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    margin:0 0 24px;
+    max-width:16ch;
+  }
+  h1 .hl{
+    background:linear-gradient(90deg,var(--blue),var(--accent) 55%,var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lead{font-size:clamp(1rem,2.2vw,1.18rem);color:var(--muted);max-width:56ch;margin:0 0 34px}
+  .lead b{color:var(--text);font-weight:500}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .btn{
+    font-family:var(--mono);font-size:13px;letter-spacing:.02em;
+    padding:11px 18px;border-radius:8px;border:1px solid var(--line-2);
+    color:var(--text);transition:border-color .18s,background .18s,transform .18s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);color:#06231e;border-color:var(--accent);font-weight:500}
+  .btn.primary:hover{background:#4fd0b6}
+
+  /* ---------- SPECTRUM SIGNATURE ---------- */
+  .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0}
+  .spectrum .bar{
+    flex:1 1 auto;min-width:2px;border-radius:2px 2px 0 0;
+    background:linear-gradient(180deg,var(--barc),color-mix(in srgb,var(--barc) 40%,transparent));
+    transform:scaleY(var(--h));transform-origin:bottom;
+    animation:eq 2.6s ease-in-out infinite;
+    animation-delay:var(--d);
+  }
+  @keyframes eq{
+    0%,100%{transform:scaleY(var(--h))}
+    50%{transform:scaleY(calc(var(--h) * .42 + .08))}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .spectrum .bar{animation:none}
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:60px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px;flex-wrap:wrap}
+  .sec-head h2{
+    font-family:var(--display);font-weight:600;font-size:1.55rem;letter-spacing:-.01em;margin:0;
+  }
+  .sec-head .count{font-family:var(--mono);font-size:12px;color:var(--muted-2)}
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    display:grid;grid-template-columns:150px 1fr;gap:28px;
+    padding:30px 0;border-top:1px solid var(--line);
+  }
+  .project:first-of-type{border-top:0;padding-top:0}
+  .p-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);padding-top:5px}
+  .p-tag .sub{display:block;color:var(--muted-2);letter-spacing:.1em;margin-top:6px}
+  .p-title{font-family:var(--display);font-weight:600;font-size:1.28rem;letter-spacing:-.01em;margin:0 0 6px}
+  .p-hook{color:var(--text);font-size:1.02rem;margin:0 0 14px}
+  .p-body{color:var(--muted);font-size:.95rem;margin:0 0 16px;max-width:64ch}
+  .p-metric{
+    font-family:var(--mono);font-size:.86rem;color:var(--text);
+    border-left:2px solid var(--accent-2);padding:4px 0 4px 14px;margin:0 0 16px;
+  }
+  .p-metric span{color:var(--accent-2)}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
+  .tag{font-family:var(--mono);font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 9px}
+  .p-links{display:flex;gap:18px}
+  .p-links a{font-family:var(--mono);font-size:13px;color:var(--accent);border-bottom:1px solid transparent;transition:border-color .18s}
+  .p-links a:hover{border-color:var(--accent)}
+  @media(max-width:680px){
+    .project{grid-template-columns:1fr;gap:12px}
+    .p-tag{padding-top:0}
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .xp{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:22px 0;border-top:1px solid var(--line)}
+  .xp:first-of-type{border-top:0;padding-top:0}
+  .xp-when{font-family:var(--mono);font-size:12px;color:var(--muted-2);padding-top:4px}
+  .xp-role{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0}
+  .xp-org{color:var(--accent);font-size:.9rem;font-family:var(--mono);margin:2px 0 10px}
+  .xp p{color:var(--muted);font-size:.95rem;margin:0;max-width:64ch}
+  @media(max-width:680px){.xp{grid-template-columns:1fr;gap:8px}}
+
+  /* ---------- SKILLS ---------- */
+  .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:26px 40px}
+  .skill-group h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  .skill-group p{margin:0;color:var(--muted);font-size:.95rem;line-height:1.9}
+  @media(max-width:640px){.skills{grid-template-columns:1fr}}
+
+  /* ---------- MUSIC (light) ---------- */
+  .music{background:var(--bg-2);border-radius:14px;border:1px solid var(--line);padding:34px}
+  .music h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:10px 0 12px}
+  .music p{color:var(--muted);max-width:60ch;margin:0 0 18px}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding:52px 0 64px}
+  .foot-grid{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .foot-name{font-family:var(--display);font-weight:600;font-size:1.5rem}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}
+  .foot-links a{font-family:var(--mono);font-size:13px;color:var(--muted);border-bottom:1px solid transparent;transition:color .18s,border-color .18s}
+  .foot-links a:hover{color:var(--accent);border-color:var(--accent)}
+  .foot-meta{font-family:var(--mono);font-size:12px;color:var(--muted-2);margin-top:26px}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="brand">abhijeet<b>.</b>shetty</div>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow hero-eyebrow">Audio DSP · Machine-Listening Engineer</div>
+    <h1>I build audio software and <span class="hl">machine-listening</span> systems.</h1>
+    <p class="lead">Real-time DSP, spatial audio, and deep learning for sound. Based in Brooklyn — an <b>MM in Music Technology at NYU</b> on top of <b>three years shipping production data systems at Citi</b>.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#projects">View projects</a>
+      <a class="btn" href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn" href="mailto:abhijeet.shetty1995@gmail.com">Email</a>
+    </div>
+    <div class="spectrum" id="spectrum" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">01 / Selected work</span>
+      <h2>Projects</h2>
+      <span class="count">audio DSP · spatial audio · machine listening</span>
+    </div>
+
+    <!-- Project 1 -->
+    <article class="project reveal">
+      <div class="p-tag">Spatial Audio<span class="sub">DCASE 2024</span></div>
+      <div>
+        <h3 class="p-title">Sound Event Localization &amp; Detection</h3>
+        <p class="p-hook">Which 3D-audio architecture actually holds up when sources overlap?</p>
+        <p class="p-body">Reproduced two DCASE 2024 SELD baselines end-to-end on STARSS23 — a multi-channel ambisonic pipeline with Log-Mel + intensity-vector features, comparing CRNN + self-attention (SELDnet) against track-wise permutation-invariant training (EINV2), with joint SED + DOA regression heads and ADPIT loss.</p>
+        <p class="p-metric">Track-wise PIT wins on polyphonic, overlapping-source scenes. <span>Applies to head-tracked binaural rendering — Vision Pro, Quest, AirPods.</span></p>
+        <div class="tags">
+          <span class="tag">PyTorch</span><span class="tag">Ambisonics</span><span class="tag">CRNN</span><span class="tag">Self-Attention</span><span class="tag">PIT</span>
+        </div>
+        <div class="p-links">
+          <!-- TODO: replace with specific repo URL -->
+          <a href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 2 -->
+    <article class="project reveal">
+      <div class="p-tag">Generative DSP<span class="sub">Real-time</span></div>
+      <div>
+        <h3 class="p-title">Spectral Phase Vocoder</h3>
+        <p class="p-hook">An STFT engine with three creative modes, built to survive a real-time plugin's constraints.</p>
+        <p class="p-body">Per-bin instantaneous-frequency estimation with phase-wrap correction keeps phase coherent across overlap-add frames; three parallel modes — channel vocoder, cross-synthesis, and spectral freeze — share Mel-band envelopes for formant-aware shaping, with auto-normalized mix weights so blending never drifts loudness.</p>
+        <p class="p-metric">Maps directly to VST/AU parameter automation. <span>Currently porting the DSP core to JUCE for real-time.</span></p>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">SciPy</span><span class="tag">STFT</span><span class="tag">JUCE (in progress)</span>
+        </div>
+        <div class="p-links">
+          <!-- TODO: replace with specific repo URL -->
+          <a href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 3 -->
+    <article class="project reveal">
+      <div class="p-tag">Machine Listening<span class="sub">Team of 4</span></div>
+      <div>
+        <h3 class="p-title">Multi-Encoder Automatic Audio Captioning</h3>
+        <p class="p-hook">Matching giant ensembles at a fraction of the size.</p>
+        <p class="p-body">A DCASE 2024 captioning system: frozen BEATs + ConvNeXt + AST encoders feeding a Conformer post-encoder and BART decoder, with three fusion strategies ablated. Inference adds nucleus sampling, CLAP audio-text reranking, and LLM post-processing.</p>
+        <p class="p-metric">FENSE <span>0.531</span> at 355M params — <span>95% smaller</span> than the 6B-param top ensemble, at competitive metrics.</p>
+        <div class="tags">
+          <span class="tag">PyTorch Lightning</span><span class="tag">Transformers</span><span class="tag">CLAP</span><span class="tag">BART</span><span class="tag">Conformer</span>
+        </div>
+        <div class="p-links">
+          <!-- TODO: replace with specific repo URL -->
+          <a href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 4 -->
+    <article class="project reveal">
+      <div class="p-tag">Audio ML<span class="sub">Domain transfer</span></div>
+      <div>
+        <h3 class="p-title">Instrument Classification: Synthetic → Real</h3>
+        <p class="p-hook">How far does a model trained on synthetic stems get on real, messy recordings?</p>
+        <p class="p-body">A Slakh→OpenMIC transfer pipeline with a frozen CLAP waveform encoder and MLP head, custom stem-remix augmentation, class-balanced sampling, and per-class thresholding — benchmarked against log-Mel CNN baselines with full W&amp;B tracking.</p>
+        <p class="p-metric">Isolated <span>domain mismatch</span>, not data volume, as the real bottleneck — measured on-pipeline rather than assumed.</p>
+        <div class="tags">
+          <span class="tag">PyTorch Lightning</span><span class="tag">CLAP</span><span class="tag">Domain Transfer</span><span class="tag">W&amp;B</span>
+        </div>
+        <div class="p-links">
+          <!-- TODO: replace with specific repo URL -->
+          <a href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 5 (lighter) -->
+    <article class="project reveal">
+      <div class="p-tag">Hardware · Creative<span class="sub">MIDI</span></div>
+      <div>
+        <h3 class="p-title">Bottle Tarang</h3>
+        <p class="p-hook">A MIDI instrument built from 12 tuned, water-filled bottles.</p>
+        <p class="p-body">Signal processing meets Hindustani classical: 12 glass bottles tuned by water level, mic'd and mapped to reproduce a Raag Bhoopali composition, with MIDI generated programmatically.</p>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">MIDI</span><span class="tag">MIDIUtil</span><span class="tag">Mingus</span>
+        </div>
+        <div class="p-links">
+          <a href="https://github.com/TimekeeperShetty/BottleTarang" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">02 / Track record</span>
+      <h2>Experience</h2>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jun 2026 — Present</div>
+      <div>
+        <h3 class="xp-role">Audio Studio Technician</h3>
+        <div class="xp-org">Sony Audio Institute Studio · NYU 370J Media Commons</div>
+        <p>Run recording sessions and signal chains across a Dante-networked studio with motion-capture and VR/AR rigs — hands-on with the capture pipelines behind real-world audio data, supporting research across NYU Tandon, Steinhardt, and Tisch.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jul 2017 — May 2020</div>
+      <div>
+        <h3 class="xp-role">Technology Analyst, Citi Private Bank</h3>
+        <div class="xp-org">Citi</div>
+        <p>Built Scala / HBase / Python data-ingestion pipelines as the golden source for client trades across NAM, APAC, and EMEA. Shipped a key-vault authentication API and led a SQL 2016 migration coordinating 100+ upstream and downstream teams.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Earlier</div>
+      <div>
+        <h3 class="xp-role">Studio engineering &amp; founding</h3>
+        <div class="xp-org">The Audio Guys Institute · Timekeepers' Academy</div>
+        <p>Assistant Studio Engineer on SSL Origin / Neumann sessions for artists including Rakesh Chaurasia and Divine. Founder of Timekeepers' Academy, a hybrid music-education studio serving 20+ students across four countries.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">03 / Toolkit</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skills">
+      <div class="skill-group reveal">
+        <h3>Languages</h3>
+        <p>Python · C++ · C# · Scala · SQL · Java</p>
+      </div>
+      <div class="skill-group reveal">
+        <h3>DSP</h3>
+        <p>STFT / FFT · phase vocoder · IIR/FIR filters · Mel filterbanks · overlap-add · instantaneous frequency · real-time / low-latency processing</p>
+      </div>
+      <div class="skill-group reveal">
+        <h3>Audio &amp; Spatial</h3>
+        <p>PyTorch / torchaudio · Librosa · SciPy.signal · JUCE (learning) · Ambisonics (FOA/HOA) · HRTF / binaural · head-tracking · SELD · Dante · Pro Tools</p>
+      </div>
+      <div class="skill-group reveal">
+        <h3>Machine Learning</h3>
+        <p>PyTorch Lightning · Hugging Face Transformers (BEATs, AST, ConvNeXt, CLAP, BART) · Conformer · PIT · self-/cross-attention · contrastive &amp; self-supervised learning · multi-modal fusion</p>
+      </div>
+      <div class="skill-group reveal">
+        <h3>Infra &amp; Tools</h3>
+        <p>Git · Docker · SLURM / HPC · Weights &amp; Biases · MLflow · ONNX · mixed precision</p>
+      </div>
+      <div class="skill-group reveal">
+        <h3>Education</h3>
+        <p>MM Music Technology, NYU (GPA 3.93 / 4.0) · B.Tech Computer Engineering, COEP · Diploma in Music Production, TAG (Gold Medalist)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="music">
+  <div class="wrap">
+    <div class="music reveal">
+      <span class="eyebrow">Beyond engineering</span>
+      <h2>I make the music too.</h2>
+      <p>Singer-songwriter and multi-instrumentalist — guitar, bass, drums, vocals. I release my own songs and produce vocals for other artists; my debut single was featured by Rolling Stone India. Building audio tools and using them are, for me, the same job from two sides.</p>
+      <a class="btn" href="https://open.spotify.com/artist/5UxUsVaAxTaNVm7dsjI94c" target="_blank" rel="noopener">Listen on Spotify ↗</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-name">Let's talk.</div>
+      <div class="foot-links">
+        <a href="mailto:abhijeet.shetty1995@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/abhijit-shetty" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/abhijeetshetty" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://open.spotify.com/artist/5UxUsVaAxTaNVm7dsjI94c" target="_blank" rel="noopener">Spotify ↗</a>
+      </div>
+    </div>
+    <div class="foot-meta">Abhijeet Shetty — Brooklyn, NY · Audio DSP &amp; Machine-Listening Engineer</div>
+  </div>
+</footer>
+
+<script>
+  // FFT-magnitude signature: bars derived from a smooth spectral envelope
+  // with a little jitter, colored across a blue→teal→amber ramp.
+  (function(){
+    var el = document.getElementById('spectrum');
+    if(!el) return;
+    var N = 56;
+    function ramp(t){ // blue -> teal -> amber
+      var stops = [[60,111,176],[63,184,160],[235,180,88]];
+      var i = t*2, k = Math.min(1, i - Math.floor(i)), a = stops[Math.floor(i)]||stops[2], b = stops[Math.ceil(i)]||stops[2];
+      return 'rgb('+Math.round(a[0]+(b[0]-a[0])*k)+','+Math.round(a[1]+(b[1]-a[1])*k)+','+Math.round(a[2]+(b[2]-a[2])*k)+')';
+    }
+    var html = '';
+    for(var i=0;i<N;i++){
+      var t = i/(N-1);
+      // a couple of gentle formant-like humps + jitter
+      var env = 0.35
+        + 0.4*Math.exp(-Math.pow((t-0.22)/0.12,2))
+        + 0.5*Math.exp(-Math.pow((t-0.55)/0.18,2))
+        + 0.3*Math.exp(-Math.pow((t-0.82)/0.10,2));
+      var h = Math.max(0.12, Math.min(1, env * (0.82 + Math.random()*0.3)));
+      var d = (-(i*0.045)).toFixed(2) + 's';
+      html += '<span class="bar" style="--h:'+h.toFixed(3)+';--d:'+d+';--barc:'+ramp(t)+'"></span>';
+    }
+    el.innerHTML = html;
+  })();
+
+  // Scroll reveal
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    },{threshold:.12});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
