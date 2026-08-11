@@ -272,7 +272,7 @@
     <div class="sec-head">
       <span class="eyebrow">01 / Selected work</span>
       <h2>Projects</h2>
-      <span class="count">audio DSP · spatial audio · machine listening</span>
+      <span class="count">audio DSP · spatial audio · machine listening · embedded</span>
     </div>
 
     <!-- Project 1 -->
@@ -343,7 +343,25 @@
       </div>
     </article>
 
-    <!-- Project 5 (lighter) -->
+    <!-- Project 5 -->
+    <article class="project reveal">
+      <div class="p-tag">Embedded Audio<span class="sub">ESP32 · C/C++</span></div>
+      <div>
+        <h3 class="p-title">MEAP-Markov: Generative Raag on an ESP32</h3>
+        <p class="p-hook">A Markov chain improvising in raag Hamir, synthesized entirely on the microcontroller.</p>
+        <p class="p-body">A first-order Markov chain over a nine-pitch Hamir set, with transition tallies normalized into a row-wise CDF at boot so note selection costs one uniform draw and a short walk - cheap enough to run inside a 128 Hz control callback. Synthesis is on-device via Mozzi: three triangle oscillators harmonized by stepping through the raag's own note set, a 3-operator FM voice, plate reverb, a resonant lowpass, and flash-resident sample playback, mixed at audio rate with live pot, touch-pad, and DIP control. No host computer in the audio path.</p>
+        <p class="p-metric">Real-time synthesis on an <span>ESP32-S3</span> under hard constraints - <span>control-rate and audio-rate work kept strictly separate</span>, int8 wavetables, samples compiled into flash with no filesystem.</p>
+        <div class="tags">
+          <span class="tag">C / C++</span><span class="tag">ESP32</span><span class="tag">Mozzi</span><span class="tag">Embedded DSP</span><span class="tag">FM Synthesis</span><span class="tag">Markov Chains</span>
+        </div>
+        <div class="p-links">
+          <a href="https://github.com/TimekeeperShetty/MEAP-Markov" target="_blank" rel="noopener">Code ↗</a>
+          <a href="https://www.linkedin.com/posts/abhijit-shetty-656464147_computermusic-creativecoding-maxmsp-ugcPost-7448135389405573122-sBX8/" target="_blank" rel="noopener">Demo video ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 6 (lighter) -->
     <article class="project reveal">
       <div class="p-tag">Hardware · Creative<span class="sub">MIDI</span></div>
       <div>
