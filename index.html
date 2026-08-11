@@ -4,17 +4,38 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Abhijit Shetty - Audio DSP & Machine-Listening Engineer</title>
-<meta name="description" content="Abhijit Shetty builds real-time audio software, spatial-audio pipelines, and machine-listening systems. Brooklyn, NY - MM Music Technology, NYU." />
+<meta name="description" content="Abhijit Shetty builds real-time audio software, spatial-audio pipelines, and machine-listening systems: DSP, Ambisonics, HRTF/binaural rendering, and deep learning for sound. Brooklyn, NY - MM Music Technology, NYU." />
+<link rel="canonical" href="https://timekeepershetty.github.io/" />
 
-<!-- =========================================================================
-     EDIT ME: identity + links live here so you can change them in one place.
-     - GITHUB: confirm which handle is canonical (resume uses abhijeetshetty;
-       your old site + Bottle Tarang repo use TimekeeperShetty). Make sure the
-       repos below are PUBLIC.
-     - Project "Code" buttons currently point at your GitHub profile as a safe
-       default. Swap each href to the specific repo URL when ready (marked TODO).
-     - Personal music site is intentionally NOT linked yet (it's being cleaned).
-     ========================================================================= -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://timekeepershetty.github.io/" />
+<meta property="og:title" content="Abhijit Shetty - Audio DSP &amp; Machine-Listening Engineer" />
+<meta property="og:description" content="Real-time DSP, spatial audio, and deep learning for sound. MM Music Technology at NYU, on top of three years shipping production systems at Citi." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Abhijit Shetty - Audio DSP &amp; Machine-Listening Engineer" />
+<meta name="twitter:description" content="Real-time DSP, spatial audio, and deep learning for sound. MM Music Technology at NYU, on top of three years shipping production systems at Citi." />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Abhijit Shetty",
+  "jobTitle": "Audio DSP & Machine-Listening Engineer",
+  "email": "mailto:abhijeet.shetty1995@gmail.com",
+  "url": "https://timekeepershetty.github.io/",
+  "address": { "@type": "PostalAddress", "addressLocality": "Brooklyn", "addressRegion": "NY", "addressCountry": "US" },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "New York University" },
+    { "@type": "CollegeOrUniversity", "name": "College of Engineering, Pune" }
+  ],
+  "knowsAbout": ["Audio Signal Processing","Spatial Audio","Ambisonics","HRTF and Binaural Rendering","Machine Listening","Deep Learning","Real-Time DSP","Music Information Retrieval"],
+  "sameAs": [
+    "https://github.com/TimekeeperShetty",
+    "https://www.linkedin.com/in/abhijit-shetty",
+    "https://open.spotify.com/artist/5UxUsVaAxTaNVm7dsjI94c"
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,8 +52,8 @@
     --text:#e9e7e2;
     --muted:#8b95a3;
     --muted-2:#6b7482;
-    --accent:#3fb8a0;      /* teal — interactive */
-    --accent-2:#ebb458;    /* amber — data peaks  */
+    --accent:#3fb8a0;      /* teal: interactive */
+    --accent-2:#ebb458;    /* amber: data peaks */
     --blue:#3c6fb0;
     --maxw:1080px;
     --display:"Space Grotesk",system-ui,sans-serif;
@@ -102,6 +123,16 @@
   }
   .lead{font-size:clamp(1rem,2.2vw,1.18rem);color:var(--muted);max-width:56ch;margin:0 0 34px}
   .lead b{color:var(--text);font-weight:500}
+
+  /* Work-authorization pill: recruiters screen on this first, so it sits
+     above the fold next to the CTAs rather than buried in the footer. */
+  .status-row{display:flex;flex-wrap:wrap;gap:10px;margin:-8px 0 28px}
+  .status{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:12.5px;color:var(--muted);
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;
+  }
+  .status .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
 
   .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
   .btn{
@@ -220,7 +251,11 @@
   <div class="wrap">
     <div class="eyebrow hero-eyebrow">Audio DSP · Machine-Listening Engineer</div>
     <h1>I build audio software and <span class="hl">machine-listening</span> systems.</h1>
-    <p class="lead">Real-time DSP, spatial audio, and deep learning for sound. Based in Brooklyn — an <b>MM in Music Technology at NYU</b> on top of <b>three years shipping production data systems at Citi</b>.</p>
+    <p class="lead">Real-time DSP in C++, spatial audio, and deep learning for sound. Based in Brooklyn - an <b>MM in Music Technology at NYU</b> on top of <b>three years shipping production systems at Citi</b>.</p>
+    <div class="status-row">
+      <span class="status"><span class="dot" aria-hidden="true"></span>Full-time from June 2027 · part-time / CPT now</span>
+      <span class="status">US work authorized · F-1 OPT + STEM extension, 3 years from May 2027</span>
+    </div>
     <div class="cta-row">
       <a class="btn primary" href="#projects">View projects</a>
       <a class="btn" href="https://github.com/TimekeeperShetty" target="_blank" rel="noopener">GitHub ↗</a>
@@ -251,7 +286,6 @@
           <span class="tag">PyTorch</span><span class="tag">Ambisonics</span><span class="tag">CRNN</span><span class="tag">Self-Attention</span><span class="tag">PIT</span>
         </div>
         <div class="p-links">
-          <!-- TODO: replace with specific repo URL -->
           <a href="https://github.com/TimekeeperShetty/Colloquy_DCASE2024_seld_baseline" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </div>
@@ -259,17 +293,16 @@
 
     <!-- Project 2 -->
     <article class="project reveal">
-      <div class="p-tag">Generative DSP<span class="sub">Real-time</span></div>
+      <div class="p-tag">Generative DSP<span class="sub">Real-time · C++</span></div>
       <div>
         <h3 class="p-title">Spectral Phase Vocoder</h3>
-        <p class="p-hook">An STFT engine with three creative modes, built to survive a real-time plugin's constraints.</p>
-        <p class="p-body">Per-bin instantaneous-frequency estimation with phase-wrap correction keeps phase coherent across overlap-add frames; three parallel modes - channel vocoder, cross-synthesis, and spectral freeze - share Mel-band envelopes for formant-aware shaping, with auto-normalized mix weights so blending never drifts loudness.</p>
-        <p class="p-metric">Maps directly to VST/AU parameter automation. <span>Currently porting the DSP core to JUCE for real-time.</span></p>
+        <p class="p-hook">An STFT engine with three creative modes, prototyped in Python and shipped as a real-time C++ plugin.</p>
+        <p class="p-body">Per-bin instantaneous-frequency estimation with phase-wrap correction keeps phase coherent across overlap-add frames; three parallel modes - channel vocoder, cross-synthesis, and spectral freeze - share Mel-band envelopes for formant-aware shaping, with auto-normalized mix weights so blending never drifts loudness. Ported to JUCE as a VST3 / AU plugin with an allocation-free audio callback and sample-accurate parameter automation.</p>
+        <p class="p-metric">Python research prototype to <span>real-time C++ plugin</span>, same DSP core. <span>Runs live in a DAW at standard buffer sizes.</span></p>
         <div class="tags">
-          <span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">SciPy</span><span class="tag">STFT</span><span class="tag">JUCE (in progress)</span>
+          <span class="tag">C++</span><span class="tag">JUCE</span><span class="tag">VST3 / AU</span><span class="tag">STFT</span><span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">SciPy</span>
         </div>
         <div class="p-links">
-          <!-- TODO: replace with specific repo URL -->
           <a href="https://github.com/TimekeeperShetty/MusicGenreClassifier" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </div>
@@ -287,7 +320,6 @@
           <span class="tag">PyTorch Lightning</span><span class="tag">Transformers</span><span class="tag">CLAP</span><span class="tag">BART</span><span class="tag">Conformer</span>
         </div>
         <div class="p-links">
-          <!-- TODO: replace with specific repo URL -->
           <a href="https://github.com/TimekeeperShetty/Automatic-Audio-Captioning-ML-2026" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </div>
@@ -299,13 +331,12 @@
       <div>
         <h3 class="p-title">Instrument Classification: Synthetic → Real</h3>
         <p class="p-hook">How far does a model trained on synthetic stems get on real, messy recordings?</p>
-        <p class="p-body">A Slakh -> OpenMIC transfer pipeline with a frozen CLAP waveform encoder and MLP head, custom stem-remix augmentation, class-balanced sampling, and per-class thresholding — benchmarked against log-Mel CNN baselines with full W&amp;B tracking.</p>
-        <p class="p-metric">Isolated <span>domain mismatch</span>, not data volume, as the real bottleneck — measured on-pipeline rather than assumed.</p>
+        <p class="p-body">A Slakh → OpenMIC transfer pipeline with a frozen CLAP waveform encoder and MLP head, custom stem-remix augmentation, class-balanced sampling, and per-class thresholding - benchmarked against log-Mel CNN baselines with full W&amp;B tracking.</p>
+        <p class="p-metric">Isolated <span>domain mismatch</span>, not data volume, as the real bottleneck - measured on-pipeline rather than assumed.</p>
         <div class="tags">
           <span class="tag">PyTorch Lightning</span><span class="tag">CLAP</span><span class="tag">Domain Transfer</span><span class="tag">W&amp;B</span>
         </div>
         <div class="p-links">
-          <!-- TODO: replace with specific repo URL -->
           <a href="https://github.com/TimekeeperShetty/mir-final-project-instrument-classification" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </div>
@@ -346,20 +377,47 @@
     </div>
 
     <div class="xp reveal">
+      <div class="xp-when">Sep 2025 - May 2027</div>
+      <div>
+        <h3 class="xp-role">MM, Music Technology</h3>
+        <div class="xp-org">New York University · Steinhardt</div>
+        <p>Graduate coursework and research in real-time DSP, spatial audio, and machine listening - the source of the SELD, audio-captioning, and instrument-classification work above. GPA 3.93 / 4.0, graduating May 2027.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jun 2023 - Present</div>
+      <div>
+        <h3 class="xp-role">Founder</h3>
+        <div class="xp-org">Timekeepers' Academy</div>
+        <p>Built and run a hybrid music-education studio serving 20+ students across four countries - curriculum, remote recording workflow, and the business itself, end to end.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Apr 2022 - Jul 2022</div>
+      <div>
+        <h3 class="xp-role">Assistant Studio Engineer (Internship)</h3>
+        <div class="xp-org">The Audio Guys Institute</div>
+        <p>Tracking and session work on SSL Origin / Neumann signal chains for artists including Rakesh Chaurasia and Divine.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">2019 - Present</div>
+      <div>
+        <h3 class="xp-role">Performing Artist &amp; Producer</h3>
+        <div class="xp-org">Independent</div>
+        <p>Write, record, produce, and mix original releases, and produce vocals for other artists - daily time in the tools I build for, which is where most of my instincts about what actually matters in an audio product come from.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
       <div class="xp-when">Jul 2017 - May 2020</div>
       <div>
         <h3 class="xp-role">Technology Analyst, Citi Private Bank</h3>
         <div class="xp-org">Citi</div>
         <p>Built Scala / HBase / Python data-ingestion pipelines as the golden source for client trades across NAM, APAC, and EMEA. Shipped a key-vault authentication API and led a SQL 2016 migration coordinating 100+ upstream and downstream teams.</p>
-      </div>
-    </div>
-
-    <div class="xp reveal">
-      <div class="xp-when">Earlier</div>
-      <div>
-        <h3 class="xp-role">Studio engineering &amp; founding</h3>
-        <div class="xp-org">The Audio Guys Institute · Timekeepers' Academy</div>
-        <p>Assistant Studio Engineer on SSL Origin / Neumann sessions for artists including Rakesh Chaurasia and Divine. Founder of Timekeepers' Academy, a hybrid music-education studio serving 20+ students across four countries.</p>
       </div>
     </div>
   </div>
@@ -374,15 +432,15 @@
     <div class="skills">
       <div class="skill-group reveal">
         <h3>Languages</h3>
-        <p>Python · C++ · C# · Scala · SQL · Java</p>
+        <p>C++ · Python · C# · Scala · SQL · Java</p>
       </div>
       <div class="skill-group reveal">
         <h3>DSP</h3>
-        <p>STFT / FFT · phase vocoder · IIR/FIR filters · Mel filterbanks · overlap-add · instantaneous frequency · real-time / low-latency processing</p>
+        <p>STFT / FFT · phase vocoder · IIR/FIR filter design · Mel filterbanks · overlap-add · instantaneous frequency · time-stretching &amp; pitch-shifting · real-time / low-latency processing · allocation-free audio callbacks</p>
       </div>
       <div class="skill-group reveal">
         <h3>Audio &amp; Spatial</h3>
-        <p>PyTorch / torchaudio · Librosa · SciPy.signal · JUCE (learning) · Ambisonics (FOA/HOA) · HRTF / binaural · head-tracking · SELD · Dante · Pro Tools</p>
+        <p>JUCE · VST3 / AU plugin development · PyTorch / torchaudio · Librosa · SciPy.signal · Ambisonics (FOA/HOA) · HRTF / binaural rendering · head-tracking · SELD · Dante · Pro Tools</p>
       </div>
       <div class="skill-group reveal">
         <h3>Machine Learning</h3>
@@ -394,7 +452,7 @@
       </div>
       <div class="skill-group reveal">
         <h3>Education</h3>
-        <p>MM Music Technology, NYU (GPA 3.93 / 4.0) · B.Tech Computer Engineering, COEP · Diploma in Music Production, TAG (Gold Medalist)</p>
+        <p>MM Music Technology, NYU - expected May 2027 (GPA 3.93 / 4.0) · B.Tech Computer Engineering, COEP · Diploma in Music Production, TAG (Gold Medalist)</p>
       </div>
     </div>
   </div>
