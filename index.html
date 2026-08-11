@@ -181,6 +181,7 @@
   .p-title{font-family:var(--display);font-weight:600;font-size:1.28rem;letter-spacing:-.01em;margin:0 0 6px}
   .p-hook{color:var(--text);font-size:1.02rem;margin:0 0 14px}
   .p-body{color:var(--muted);font-size:.95rem;margin:0 0 16px;max-width:64ch}
+  .p-body code{font-family:var(--mono);font-size:.88em;color:var(--text);background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
   .p-metric{
     font-family:var(--mono);font-size:.86rem;color:var(--text);
     border-left:2px solid var(--accent-2);padding:4px 0 4px 14px;margin:0 0 16px;
@@ -279,11 +280,11 @@
       <div class="p-tag">Spatial Audio<span class="sub">DCASE 2024</span></div>
       <div>
         <h3 class="p-title">Sound Event Localization &amp; Detection</h3>
-        <p class="p-hook">Which 3D-audio architecture actually holds up when sources overlap?</p>
-        <p class="p-body">Reproduced two DCASE 2024 SELD baselines end-to-end on STARSS23 - a multi-channel ambisonic pipeline with Log-Mel + intensity-vector features, comparing CRNN + self-attention (SELDnet) against track-wise permutation-invariant training (EINV2), with joint SED + DOA regression heads and ADPIT loss.</p>
-        <p class="p-metric">Track-wise PIT wins on polyphonic, overlapping-source scenes. <span>Applies to head-tracked binaural rendering - Vision Pro, Quest, AirPods.</span></p>
+        <p class="p-hook">Which 3D-audio design choices actually hold up when sources overlap?</p>
+        <p class="p-body">Reproduced the DCASE 2024 Task 3 audio-only baseline end-to-end on STARSS23 across five configurations, each adjacent pair differing in exactly one variable: microphone format (first-order Ambisonics vs. tetrahedral array), spatial features (Mel + intensity vectors, GCC-PHAT, SALSA-Lite), and output representation (Single- vs. Multi-ACCDOA with ADPIT permutation-invariant loss), on a ~0.5M-parameter CRNN.</p>
+        <p class="p-metric">Best config (FOA + Mel/IV + Multi-ACCDOA): <span>F20 7.4%, 38.2&deg; DOA error, 0.788 SELD score</span> - reproducing the published baseline's task ordering and landing within 1.3&deg; of its DOA on <span>one-fifth the training budget</span>. Output representation dominated everything else: <span>F20 7.4% vs. 0.3%</span> for Multi- vs. Single-ACCDOA, format and features held constant.</p>
         <div class="tags">
-          <span class="tag">PyTorch</span><span class="tag">Ambisonics</span><span class="tag">CRNN</span><span class="tag">Self-Attention</span><span class="tag">PIT</span>
+          <span class="tag">PyTorch</span><span class="tag">Ambisonics</span><span class="tag">CRNN</span><span class="tag">Multi-ACCDOA</span><span class="tag">ADPIT / PIT</span><span class="tag">SALSA-Lite</span>
         </div>
         <div class="p-links">
           <a href="https://github.com/TimekeeperShetty/Colloquy_DCASE2024_seld_baseline" target="_blank" rel="noopener">Code ↗</a>
@@ -293,17 +294,17 @@
 
     <!-- Project 2 -->
     <article class="project reveal">
-      <div class="p-tag">Generative DSP<span class="sub">Real-time · C++</span></div>
+      <div class="p-tag">Generative DSP<span class="sub">STFT · from scratch</span></div>
       <div>
         <h3 class="p-title">Spectral Phase Vocoder</h3>
-        <p class="p-hook">An STFT engine with three creative modes, prototyped in Python and shipped as a real-time C++ plugin.</p>
-        <p class="p-body">Per-bin instantaneous-frequency estimation with phase-wrap correction keeps phase coherent across overlap-add frames; three parallel modes - channel vocoder, cross-synthesis, and spectral freeze - share Mel-band envelopes for formant-aware shaping, with auto-normalized mix weights so blending never drifts loudness. Ported to JUCE as a VST3 / AU plugin with an allocation-free audio callback and sample-accurate parameter automation.</p>
-        <p class="p-metric">Python research prototype to <span>real-time C++ plugin</span>, same DSP core. <span>Runs live in a DAW at standard buffer sizes.</span></p>
+        <p class="p-hook">An STFT engine that runs three creative modes in parallel and blends them in the complex domain.</p>
+        <p class="p-body">Built from scratch on <code>numpy.fft</code> - no DSP library doing the vocoding. Per-bin instantaneous-frequency estimation with phase-wrap correction keeps phase coherent across overlap-add frames, which is what stops the spectral freeze from degenerating into a static buzz. Three parallel modes - channel vocoder, cross-synthesis, and spectral freeze - share Mel-band envelopes for formant-aware shaping, summed as complex spectra with auto-normalized mix weights so blending changes character, not loudness.</p>
+        <p class="p-metric"><span>2048-point STFT at a 512-sample hop</span> (4&times; overlap, 48 kHz), 24 Mel bands for the formant envelope, and three modes on a <span>continuous weight simplex</span> rather than a mode switch. Seven rendered blends and the spectrogram analysis ship with the repo.</p>
         <div class="tags">
-          <span class="tag">C++</span><span class="tag">JUCE</span><span class="tag">VST3 / AU</span><span class="tag">STFT</span><span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">SciPy</span>
+          <span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">SciPy</span><span class="tag">STFT</span><span class="tag">Phase Vocoder</span><span class="tag">Mel Filterbank</span>
         </div>
         <div class="p-links">
-          <a href="https://github.com/TimekeeperShetty/MusicGenreClassifier" target="_blank" rel="noopener">Code ↗</a>
+          <a href="https://github.com/TimekeeperShetty/dst2-spectral-vocoder" target="_blank" rel="noopener">Code ↗</a>
         </div>
       </div>
     </article>
@@ -314,8 +315,8 @@
       <div>
         <h3 class="p-title">Multi-Encoder Automatic Audio Captioning</h3>
         <p class="p-hook">Matching giant ensembles at a fraction of the size.</p>
-        <p class="p-body">A DCASE 2024 captioning system: frozen BEATs + ConvNeXt + AST encoders feeding a Conformer post-encoder and BART decoder, with three fusion strategies ablated. Inference adds nucleus sampling, CLAP audio-text reranking, and LLM post-processing.</p>
-        <p class="p-metric">FENSE <span>0.531</span> at 355M params - <span>95% smaller</span> than the 6B-param top ensemble, at competitive metrics.</p>
+        <p class="p-body">A DCASE 2024 captioning system on Clotho v2: frozen BEATs + ConvNeXt + AST encoders feeding a Conformer post-encoder and BART decoder, with three fusion strategies ablated and AudioCaps + Clotho mixup pretraining. Inference adds nucleus sampling, CLAP audio-text reranking, and LLM post-processing.</p>
+        <p class="p-metric">Sequence fusion led the ablation at <span>FENSE 0.531</span> on <span>355M parameters</span> - <span>95% smaller</span> than the 6B-parameter top ensemble, at competitive metrics. Pretraining, not encoder count, was what fixed the parameter bloat on a 6,972-clip dataset.</p>
         <div class="tags">
           <span class="tag">PyTorch Lightning</span><span class="tag">Transformers</span><span class="tag">CLAP</span><span class="tag">BART</span><span class="tag">Conformer</span>
         </div>
@@ -331,10 +332,10 @@
       <div>
         <h3 class="p-title">Instrument Classification: Synthetic → Real</h3>
         <p class="p-hook">How far does a model trained on synthetic stems get on real, messy recordings?</p>
-        <p class="p-body">A Slakh → OpenMIC transfer pipeline with a frozen CLAP waveform encoder and MLP head, custom stem-remix augmentation, class-balanced sampling, and per-class thresholding - benchmarked against log-Mel CNN baselines with full W&amp;B tracking.</p>
-        <p class="p-metric">Isolated <span>domain mismatch</span>, not data volume, as the real bottleneck - measured on-pipeline rather than assumed.</p>
+        <p class="p-body">A Slakh → OpenMIC transfer pipeline benchmarking three encoders - a from-scratch log-Mel CNN, frozen CLAP, and AudioMAE - each with an MLP head, plus stem-remix and <code>pedalboard</code> reverb/gain/noise augmentation, class-balanced sampling, and per-class thresholding, with full W&amp;B tracking.</p>
+        <p class="p-metric">The log-Mel CNN won in-domain (0.92 micro-F1) then collapsed on real audio (0.40). CLAP traded in-domain accuracy for robustness and held <span>0.60 synth→real, cutting the transfer drop from 52 to 29 points</span>. Augmentation alone bought <span>nothing</span> on real data (0.58 vs. 0.60) - isolating <span>domain mismatch, not data volume</span>, as the bottleneck.</p>
         <div class="tags">
-          <span class="tag">PyTorch Lightning</span><span class="tag">CLAP</span><span class="tag">Domain Transfer</span><span class="tag">W&amp;B</span>
+          <span class="tag">PyTorch Lightning</span><span class="tag">CLAP</span><span class="tag">AudioMAE</span><span class="tag">Domain Transfer</span><span class="tag">W&amp;B</span>
         </div>
         <div class="p-links">
           <a href="https://github.com/TimekeeperShetty/mir-final-project-instrument-classification" target="_blank" rel="noopener">Code ↗</a>
