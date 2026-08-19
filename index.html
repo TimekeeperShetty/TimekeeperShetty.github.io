@@ -11,9 +11,6 @@
 <meta property="og:url" content="https://timekeepershetty.github.io/" />
 <meta property="og:title" content="Abhijit Shetty - Audio DSP &amp; Machine-Listening Engineer" />
 <meta property="og:description" content="Real-time DSP, spatial audio, and deep learning for sound. MM Music Technology at NYU, on top of three years shipping production systems at Citi." />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Abhijit Shetty - Audio DSP &amp; Machine-Listening Engineer" />
-<meta name="twitter:description" content="Real-time DSP, spatial audio, and deep learning for sound. MM Music Technology at NYU, on top of three years shipping production systems at Citi." />
 
 <script type="application/ld+json">
 {
@@ -31,7 +28,7 @@
   "knowsAbout": ["Audio Signal Processing","Spatial Audio","Ambisonics","HRTF and Binaural Rendering","Machine Listening","Deep Learning","Real-Time DSP","Music Information Retrieval"],
   "sameAs": [
     "https://github.com/TimekeeperShetty",
-    "https://www.linkedin.com/in/abhijit-shetty",
+    "https://www.linkedin.com/in/abhijit-shetty-656464147/",
     "https://open.spotify.com/artist/5UxUsVaAxTaNVm7dsjI94c"
   ]
 }
@@ -91,23 +88,55 @@
   }
 
   /* ---------- NAV ---------- */
+  /* Pinned to the top for the whole page: the section links stay reachable
+     however far down a recruiter has scrolled. */
   nav{
-    position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(10px);
-    background:rgba(13,16,20,.72);
+    position:-webkit-sticky;position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    background:rgba(13,16,20,.82);
     border-bottom:1px solid var(--line);
+    transition:box-shadow .2s,background .2s;
   }
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-  .brand{font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--text)}
+  nav.stuck{background:rgba(13,16,20,.94);box-shadow:0 8px 24px rgba(0,0,0,.38)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+  .brand{font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--text);white-space:nowrap}
   .brand b{color:var(--accent);font-weight:500}
   .nav-links{display:flex;gap:26px}
   .nav-links a{font-family:var(--mono);font-size:13px;color:var(--muted);transition:color .18s}
   .nav-links a:hover{color:var(--text)}
-  @media(max-width:640px){.nav-links{display:none}}
+  @media(max-width:640px){
+    .wrap.nav-inner{padding:0 18px}
+    .nav-links{gap:14px}
+    .nav-links a{font-size:12px}
+    .brand{font-size:12.5px}
+  }
+  @media(max-width:400px){.nav-links a[href="#skills"]{display:none}}
 
   /* ---------- HERO ---------- */
   header{padding:96px 0 64px;position:relative;overflow:hidden}
+  .hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:44px;align-items:end}
+  .hero-copy{min-width:0}
   .hero-eyebrow{margin-bottom:22px}
+
+  /* Cut-out portrait: no card, no border - it sits directly on the page and
+     dissolves into it, so the background-removed edge is the point. */
+  .hero-portrait{position:relative;justify-self:end;width:100%;max-width:330px}
+  .hero-portrait::before{
+    content:"";position:absolute;inset:-14% -10% 4%;z-index:0;
+    background:radial-gradient(58% 52% at 52% 34%,
+      rgba(63,184,160,.20), rgba(60,111,176,.13) 52%, transparent 72%);
+    filter:blur(8px);
+  }
+  .hero-portrait img{
+    position:relative;z-index:1;display:block;width:100%;height:auto;
+    -webkit-mask-image:linear-gradient(180deg,#000 58%,rgba(0,0,0,.55) 84%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 58%,rgba(0,0,0,.55) 84%,transparent 100%);
+  }
+  @media(max-width:820px){
+    .hero{grid-template-columns:1fr;gap:26px}
+    .hero-portrait{order:-1;justify-self:start;max-width:190px}
+    .hero-portrait::before{inset:-10% -12% 2%}
+  }
   h1{
     font-family:var(--display);
     font-weight:600;
@@ -148,7 +177,9 @@
   /* ---------- SPECTRUM SIGNATURE ---------- */
   .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0}
   .spectrum .bar{
-    flex:1 1 auto;min-width:2px;border-radius:2px 2px 0 0;
+    /* align-items:flex-end stops the bars from stretching, so they need an
+       explicit height for scaleY(--h) to have anything to scale. */
+    flex:1 1 auto;min-width:2px;height:100%;border-radius:2px 2px 0 0;
     background:linear-gradient(180deg,var(--barc),color-mix(in srgb,var(--barc) 40%,transparent));
     transform:scaleY(var(--h));transform-origin:bottom;
     animation:eq 2.6s ease-in-out infinite;
@@ -238,7 +269,7 @@
 
 <nav>
   <div class="wrap nav-inner">
-    <div class="brand">abhijit<b>.</b>shetty</div>
+    <div class="brand">Abhijit Shetty</div>
     <div class="nav-links">
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
@@ -249,12 +280,13 @@
 </nav>
 
 <header>
-  <div class="wrap">
+  <div class="wrap hero">
+   <div class="hero-copy">
     <div class="eyebrow hero-eyebrow">Audio DSP · Machine-Listening Engineer</div>
     <h1>I build audio software and <span class="hl">machine-listening</span> systems.</h1>
     <p class="lead">Real-time DSP in C++, spatial audio, and deep learning for sound. Based in Brooklyn - an <b>MM in Music Technology at NYU</b> on top of <b>three years shipping production systems at Citi</b>.</p>
     <div class="status-row">
-      <span class="status"><span class="dot" aria-hidden="true"></span>Full-time from June 2027 · part-time / CPT now</span>
+      <span class="status"><span class="dot" aria-hidden="true"></span>Full-time from June 2027 · Part-time / CPT now</span>
       <span class="status">US work authorized · F-1 OPT + STEM extension, 3 years from May 2027</span>
     </div>
     <div class="cta-row">
@@ -262,6 +294,16 @@
       <a class="btn" href="https://github.com/TimekeeperShetty" target="_blank" rel="noopener">GitHub ↗</a>
       <a class="btn" href="mailto:abhijeet.shetty1995@gmail.com">Email</a>
     </div>
+   </div>
+   <div class="hero-portrait">
+     <picture>
+       <source srcset="portrait.webp" type="image/webp" />
+       <img src="portrait.png" width="900" height="989"
+            alt="Portrait of Abhijit Shetty" fetchpriority="high" decoding="async" />
+     </picture>
+   </div>
+  </div>
+  <div class="wrap">
     <div class="spectrum" id="spectrum" aria-hidden="true"></div>
   </div>
 </header>
@@ -495,7 +537,7 @@
       <div class="foot-name">Let's talk.</div>
       <div class="foot-links">
         <a href="mailto:abhijeet.shetty1995@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/abhijit-shetty" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://www.linkedin.com/in/abhijit-shetty-656464147/" target="_blank" rel="noopener">LinkedIn ↗</a>
         <a href="https://github.com/TimekeeperShetty" target="_blank" rel="noopener">GitHub ↗</a>
         <a href="https://open.spotify.com/artist/5UxUsVaAxTaNVm7dsjI94c" target="_blank" rel="noopener">Spotify ↗</a>
       </div>
@@ -529,6 +571,19 @@
       html += '<span class="bar" style="--h:'+h.toFixed(3)+';--d:'+d+';--barc:'+ramp(t)+'"></span>';
     }
     el.innerHTML = html;
+  })();
+
+  // Nav is sticky in CSS; this only deepens its background once it lifts off
+  // the hero, so the pinned bar stays readable over content scrolling under it.
+  (function(){
+    var nav = document.querySelector('nav');
+    if(!nav) return;
+    var tick = false;
+    function update(){ nav.classList.toggle('stuck', window.scrollY > 8); tick = false; }
+    window.addEventListener('scroll', function(){
+      if(!tick){ tick = true; requestAnimationFrame(update); }
+    }, {passive:true});
+    update();
   })();
 
   // Scroll reveal
