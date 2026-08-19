@@ -112,11 +112,14 @@
     .nav-links a{font-size:12px}
     .brand{font-size:12.5px}
   }
-  /* Five links no longer fit as the bar narrows. Drop them worst-value first
-     so Projects / Experience / Contact survive; both dropped sections are
-     still reachable by scrolling. */
-  @media(max-width:600px){.nav-links a[href="#education"]{display:none}}
-  @media(max-width:500px){.nav-links a[href="#skills"]{display:none}}
+  /* All five links stay reachable on a phone: below 600px the bar stacks the
+     name over the links rather than dropping any of them. flex-wrap is the
+     safety net for the narrowest handsets. */
+  @media(max-width:600px){
+    .wrap.nav-inner{flex-direction:column;justify-content:center;gap:5px;height:auto;padding-top:9px;padding-bottom:10px}
+    .nav-links{flex-wrap:wrap;justify-content:center;gap:12px;row-gap:4px}
+    .nav-links a{font-size:11px}
+  }
 
   /* ---------- HERO ---------- */
   header{padding:96px 0 64px;position:relative;overflow:hidden}
@@ -434,7 +437,6 @@
     <div class="sec-head">
       <span class="eyebrow">02 / Track record</span>
       <h2>Experience</h2>
-      <span class="count">oldest first</span>
     </div>
 
     <div class="xp reveal">
@@ -521,7 +523,6 @@
     <div class="sec-head">
       <span class="eyebrow">04 / Foundations</span>
       <h2>Education</h2>
-      <span class="count">latest first</span>
     </div>
 
     <div class="xp reveal">
