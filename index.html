@@ -23,7 +23,8 @@
   "address": { "@type": "PostalAddress", "addressLocality": "Brooklyn", "addressRegion": "NY", "addressCountry": "US" },
   "alumniOf": [
     { "@type": "CollegeOrUniversity", "name": "New York University" },
-    { "@type": "CollegeOrUniversity", "name": "College of Engineering, Pune" }
+    { "@type": "CollegeOrUniversity", "name": "College of Engineering, Pune" },
+    { "@type": "EducationalOrganization", "name": "The Audio Guys Institute" }
   ],
   "knowsAbout": ["Audio Signal Processing","Spatial Audio","Ambisonics","HRTF and Binaural Rendering","Machine Listening","Deep Learning","Real-Time DSP","Music Information Retrieval"],
   "sameAs": [
@@ -110,7 +111,11 @@
     .nav-links a{font-size:12px}
     .brand{font-size:12.5px}
   }
-  @media(max-width:400px){.nav-links a[href="#skills"]{display:none}}
+  /* Five links no longer fit as the bar narrows. Drop them worst-value first
+     so Projects / Experience / Contact survive; both dropped sections are
+     still reachable by scrolling. */
+  @media(max-width:600px){.nav-links a[href="#skills"]{display:none}}
+  @media(max-width:500px){.nav-links a[href="#education"]{display:none}}
 
   /* ---------- HERO ---------- */
   header{padding:96px 0 64px;position:relative;overflow:hidden}
@@ -232,6 +237,7 @@
   .xp{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:22px 0;border-top:1px solid var(--line)}
   .xp:first-of-type{border-top:0;padding-top:0}
   .xp-when{font-family:var(--mono);font-size:12px;color:var(--muted-2);padding-top:4px}
+  .xp-note{display:block;color:var(--accent-2);margin-top:3px}
   .xp-role{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0}
   .xp-org{color:var(--accent);font-size:.9rem;font-family:var(--mono);margin:2px 0 10px}
   .xp p{color:var(--muted);font-size:.95rem;margin:0;max-width:64ch}
@@ -273,6 +279,7 @@
     <div class="nav-links">
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
@@ -426,41 +433,15 @@
     <div class="sec-head">
       <span class="eyebrow">02 / Track record</span>
       <h2>Experience</h2>
+      <span class="count">oldest first</span>
     </div>
 
     <div class="xp reveal">
-      <div class="xp-when">Jun 2026 - Present</div>
+      <div class="xp-when">Jul 2017 - May 2020</div>
       <div>
-        <h3 class="xp-role">Audio Studio Technician</h3>
-        <div class="xp-org">Sony Audio Institute Studio · NYU 370J Media Commons</div>
-        <p>Run recording sessions and signal chains across a Dante-networked studio with motion-capture and VR/AR rigs - hands-on with the capture pipelines behind real-world audio data, supporting research across NYU Tandon, Steinhardt, and Tisch.</p>
-      </div>
-    </div>
-
-    <div class="xp reveal">
-      <div class="xp-when">Sep 2025 - May 2027</div>
-      <div>
-        <h3 class="xp-role">MM, Music Technology</h3>
-        <div class="xp-org">New York University · Steinhardt</div>
-        <p>Graduate coursework and research in real-time DSP, spatial audio, and machine listening - the source of the SELD, audio-captioning, and instrument-classification work above. GPA 3.93 / 4.0, graduating May 2027.</p>
-      </div>
-    </div>
-
-    <div class="xp reveal">
-      <div class="xp-when">Jun 2023 - Present</div>
-      <div>
-        <h3 class="xp-role">Founder</h3>
-        <div class="xp-org">Timekeepers' Academy</div>
-        <p>Built and run a hybrid music-education studio serving 20+ students across four countries - curriculum, remote recording workflow, and the business itself, end to end.</p>
-      </div>
-    </div>
-
-    <div class="xp reveal">
-      <div class="xp-when">Apr 2022 - Jul 2022</div>
-      <div>
-        <h3 class="xp-role">Assistant Studio Engineer (Internship)</h3>
-        <div class="xp-org">The Audio Guys Institute</div>
-        <p>Tracking and session work on SSL Origin / Neumann signal chains for artists including Rakesh Chaurasia and Divine.</p>
+        <h3 class="xp-role">Technology Analyst, Citi Private Bank</h3>
+        <div class="xp-org">Citi India · Pune, India</div>
+        <p>Designed and shipped Scala / HBase / Python data-ingestion pipelines as the golden source for client trades across NAM, APAC, and EMEA, plus a JIRA tracker in C# / SQL / Python. Implemented a key-vault authentication API and led a SQL 2016 migration, coordinating 100+ upstream and downstream teams.</p>
       </div>
     </div>
 
@@ -474,11 +455,66 @@
     </div>
 
     <div class="xp reveal">
-      <div class="xp-when">Jul 2017 - May 2020</div>
+      <div class="xp-when">Apr 2022 - Jul 2022</div>
       <div>
-        <h3 class="xp-role">Technology Analyst, Citi Private Bank</h3>
-        <div class="xp-org">Citi</div>
-        <p>Built Scala / HBase / Python data-ingestion pipelines as the golden source for client trades across NAM, APAC, and EMEA. Shipped a key-vault authentication API and led a SQL 2016 migration coordinating 100+ upstream and downstream teams.</p>
+        <h3 class="xp-role">Assistant Studio Engineer (Internship)</h3>
+        <div class="xp-org">The Audio Guys Institute · Mumbai, India</div>
+        <p>Tracking and session work on SSL Origin / Neumann signal chains for artists including Rakesh Chaurasia and Divine.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jun 2023 - Present</div>
+      <div>
+        <h3 class="xp-role">Founder &amp; Teacher (part-time)</h3>
+        <div class="xp-org">Timekeepers' Academy · Mumbai, India (remote)</div>
+        <p>Founded and run a hybrid music academy across four countries - 20+ students and 5 instructors - covering curriculum, remote recording workflow, and the business itself, end to end. Deep hands-on time with DAWs, MIDI controllers, and plugin chains.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jun 2026 - Present</div>
+      <div>
+        <h3 class="xp-role">Audio Studio Technician</h3>
+        <div class="xp-org">Sony Audio Institute Studio · NYU 370J Media Commons</div>
+        <p>Operate and maintain a studio complex built on Dante audio and NDI video networks, diagnosing signal-chain and hardware faults across the facility. Engineer recording sessions and support faculty and student work - performances, installations, and research, including motion-capture and VR/AR rigs - across NYU Tandon, Steinhardt, and Tisch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">03 / Foundations</span>
+      <h2>Education</h2>
+      <span class="count">oldest first</span>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jul 2013 - 2017</div>
+      <div>
+        <h3 class="xp-role">B.Tech, Computer Engineering</h3>
+        <div class="xp-org">College of Engineering, Pune (COEP) · Pune, India</div>
+        <p>Four years of core computer engineering - the systems and programming grounding underneath the DSP work. CGPA 7.76.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Jul 2021 - Jun 2022</div>
+      <div>
+        <h3 class="xp-role">Diploma in Music Production</h3>
+        <div class="xp-org">The Audio Guys Institute (TAG) · Mumbai, India</div>
+        <p>Studio production, tracking, and mixing on professional signal chains - where the engineering ear came from. CGPA 8.24, Gold Medalist.</p>
+      </div>
+    </div>
+
+    <div class="xp reveal">
+      <div class="xp-when">Aug 2025 - May 2027<span class="xp-note">expected</span></div>
+      <div>
+        <h3 class="xp-role">MM, Music Technology</h3>
+        <div class="xp-org">New York University · Steinhardt</div>
+        <p>Graduate coursework and research in real-time DSP, spatial audio, and machine listening - the source of the SELD, audio-captioning, and instrument-classification work above. Coursework: Digital Signal Theory, Machine Listening, Music Information Retrieval, Spatial Audio. GPA 3.93 / 4.0.</p>
       </div>
     </div>
   </div>
@@ -487,7 +523,7 @@
 <section id="skills">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">03 / Toolkit</span>
+      <span class="eyebrow">04 / Toolkit</span>
       <h2>Skills</h2>
     </div>
     <div class="skills">
