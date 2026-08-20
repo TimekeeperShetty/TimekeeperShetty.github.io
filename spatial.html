@@ -265,6 +265,15 @@
      keyframe fallback - the transform comes straight from the FFT. */
   .spectrum.live .bar{animation:none}
 
+  /* Headphone note: mono and rule-marked so it reads as an aside from
+     the author rather than as another line of hero copy. */
+  .audio-note{
+    font-family:var(--mono);font-size:12.5px;line-height:1.65;
+    color:var(--muted);max-width:52ch;margin:22px 0 0;
+    padding-left:13px;border-left:2px solid var(--accent);
+  }
+  .audio-note b{color:var(--text);font-weight:500}
+
   .spectrum-cap{
     display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
     font-family:var(--mono);font-size:11.5px;color:var(--muted-2);
@@ -361,6 +370,7 @@
       <a class="btn" href="https://github.com/TimekeeperShetty?tab=repositories" target="_blank" rel="noopener">GitHub ↗</a>
       <a class="btn" href="mailto:abhijeet.shetty1995@gmail.com">Email</a>
     </div>
+    <p class="audio-note">This is a spatial mix, I use AirPods but I invite you to use anything that enables 3D audio playback!</p>
    </div>
    <div class="hero-portrait">
      <picture>
@@ -648,7 +658,7 @@
 
 <div class="transport" role="group" aria-label="Ambient bed">
   <button class="play-btn" id="play" type="button" aria-pressed="false" aria-label="Play ambient bed">▶</button>
-  <span class="t-meta"><b>Ambient bed</b><span id="transport-status">Generative ambient · headphones recommended</span></span>
+  <span class="t-meta"><b>Ambient bed</b><span id="transport-status">Generative ambient · spatial mix</span></span>
   <input type="range" id="vol" min="0" max="100" value="55" aria-label="Volume" />
 </div>
 
@@ -1173,7 +1183,7 @@
       if(status){
         status.textContent = playing
           ? '6 sources · HRTF binaural · ' + Math.round(Room.rate()/1000) + ' kHz'
-          : 'Generative ambient · headphones recommended';
+          : 'Generative ambient · spatial mix';
       }
     }
 
