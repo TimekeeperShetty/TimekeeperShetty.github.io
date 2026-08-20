@@ -166,7 +166,10 @@
   .btn.primary:hover{background:#4fd0b6}
 
   /* ---------- SPECTRUM SIGNATURE ---------- */
-  .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0}
+  /* With no invented envelope, silence collapses every bar to nothing -
+     so the row keeps a baseline to read zero against. */
+  .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0;
+            border-bottom:1px solid var(--line-2)}
   .spectrum .bar{
     /* align-items:flex-end stops the bars from stretching, so they need an
        explicit height for scaleY(--h) to have anything to scale. */
@@ -468,7 +471,7 @@
   <div class="wrap">
     <div class="spectrum" id="spectrum" aria-hidden="true"></div>
     <p class="spectrum-cap">
-      <span><span class="live-dot" aria-hidden="true"></span>Live FFT of the bed playing on this page</span>
+      <span><span class="live-dot" aria-hidden="true"></span><span id="fft-cap">Live FFT · silent, all bins at zero</span></span>
       <span>Synthesised in-browser · no audio files</span>
       <span>6 sources around you · 4 bells outside the room · HRTF</span>
     </p>
@@ -1106,8 +1109,11 @@
         }
       },
       rate:   function(){ return ctx ? ctx.sampleRate : 48000; },
+      // Tied to whether the graph is rendering rather than to the
+      // transport state, so the bins keep following the tails down through
+      // a pause instead of dropping to zero while sound is still audible.
       spectrum: function(){
-        if(!analyser || state !== 'playing') return null;
+        if(!analyser || !ctx || ctx.state !== 'running') return null;
         analyser.getByteFrequencyData(bins);
         return bins;
       }
@@ -1139,6 +1145,10 @@
 
     var barEls = [];
     var spectrumEl = document.getElementById('spectrum');
+    var capEl = document.getElementById('fft-cap'), capSignal = null;
+
+    var CAP_SIGNAL = 'Live FFT of the bed playing on this page';
+    var CAP_SILENT = 'Live FFT \u00b7 silent, all bins at zero';
 
     function resize(){
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -1156,20 +1166,6 @@
       for(var i=0;i<=BANDS;i++){
         var f = lo*Math.pow(hi/lo, i/BANDS);
         idx[i] = Math.min(binCount-1, Math.max(0, Math.round(f/nyq*binCount)));
-      }
-    }
-
-    // Idle bed: the formant-ish humps the original signature used, but
-    // slowly moving, so an unplayed page still looks alive.
-    function idle(now){
-      var s = now/1000;
-      for(var i=0;i<BANDS;i++){
-        var t = i/(BANDS-1);
-        var env = 0.26
-          + 0.30*Math.exp(-Math.pow((t-0.20 + Math.sin(s*0.11)*0.03)/0.13,2))
-          + 0.40*Math.exp(-Math.pow((t-0.53 + Math.sin(s*0.07)*0.05)/0.19,2))
-          + 0.22*Math.exp(-Math.pow((t-0.81 + Math.sin(s*0.13)*0.02)/0.11,2));
-        raw[i] = env * (0.72 + 0.28*(0.5 + 0.5*Math.sin(s*0.6 + i*0.42)));
       }
     }
 
@@ -1274,13 +1270,16 @@
       if(!barEls.length) return;
       for(var i=0;i<barEls.length;i++){
         var v = band[Math.round(i/(barEls.length-1)*(BANDS-1))];
-        barEls[i].style.setProperty('--h', Math.max(0.06, Math.min(1, v*1.15)).toFixed(3));
+        barEls[i].style.setProperty('--h', Math.min(1, v*1.15).toFixed(3));
       }
     }
 
     function frame(now){
+      // No signal means no signal. The caption calls this a live FFT, so at
+      // rest every bin reads zero rather than showing an invented envelope.
       var bins = Room.spectrum();
-      if(bins) live(bins, Room.rate()); else idle(now);
+      if(bins) live(bins, Room.rate());
+      else for(var z=0;z<BANDS;z++) raw[z] = 0;
 
       var dt = lastT ? Math.min(0.1, (now-lastT)/1000) : 0;
       lastT = now;
@@ -1294,10 +1293,20 @@
       for(var i=0;i<BANDS;i++){
         var target = raw[i];
         band[i] += (target - band[i]) * (target > band[i] ? 0.34 : 0.07);
+        // An exponential release never actually arrives, and "almost zero"
+        // is still a hairline on screen. With no signal, land on zero.
+        if(target === 0 && band[i] < 0.006) band[i] = 0;
       }
       for(var i=0;i<BANDS;i++){
         var l = band[(i-1+BANDS)%BANDS], r = band[(i+1)%BANDS];
         smooth[i] = (l + 2*band[i] + r) * 0.25;
+      }
+
+      var signal = false;
+      for(var q=0;q<BANDS;q++){ if(band[q] > 0.004){ signal = true; break; } }
+      if(capEl && signal !== capSignal){
+        capSignal = signal;
+        capEl.textContent = signal ? CAP_SIGNAL : CAP_SILENT;
       }
 
       var doc    = document.documentElement;
@@ -1324,7 +1333,7 @@
       var N = 56, html = '';
       for(var i=0;i<N;i++){
         var t = i/(N-1), c = ramp(t);
-        html += '<span class="bar" style="--h:0.2;--barc:rgb('+c[0]+','+c[1]+','+c[2]+')"></span>';
+        html += '<span class="bar" style="--h:0;--barc:rgb('+c[0]+','+c[1]+','+c[2]+')"></span>';
       }
       spectrumEl.innerHTML = html;
       spectrumEl.classList.add('live');
@@ -1335,8 +1344,7 @@
     window.addEventListener('resize', resize, {passive:true});
 
     if(REDUCED){
-      idle(performance.now());
-      for(var i=0;i<BANDS;i++) band[i] = raw[i];
+      for(var i=0;i<BANDS;i++){ raw[i] = 0; band[i] = 0; smooth[i] = 0; }
       g.clearRect(0,0,W,H);
       g.globalCompositeOperation = 'lighter';
       g.save();
@@ -1359,6 +1367,7 @@
     var btns   = document.querySelectorAll('[data-play]');
     var status = document.getElementById('transport-status');
     var label  = document.getElementById('cue-label');
+    var cap    = document.getElementById('fft-cap');
     var vol    = document.getElementById('vol');
 
     var CUE_IDLE = 'Click here to witness my space';
@@ -1381,6 +1390,9 @@
       }
 
       if(label) label.textContent = playing ? CUE_LIVE : CUE_IDLE;
+      if(cap && REDUCED) cap.textContent = playing
+        ? 'Live FFT of the bed playing on this page'
+        : 'Live FFT \u00b7 silent, all bins at zero';
       if(status){
         status.textContent = playing
           ? '10 sources \u00b7 HRTF binaural \u00b7 ' + Math.round(Room.rate()/1000) + ' kHz'
