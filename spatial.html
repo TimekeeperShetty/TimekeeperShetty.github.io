@@ -275,10 +275,14 @@
     /* Sized off three variables so the gap stays exactly what it says it
        is: the arrow bridges it, and the row's top margin absorbs whatever
        the arrow is taller than the button by. */
-    --cue-gap:3cm;
-    --arrow-h:170px;
+    /* CSS pins 1cm to 96dpi, so `3cm` renders as 113px - about three
+       quarters of a physical centimetre on a Retina panel. These are set
+       in px against a ~50px/cm Retina display instead, which is what
+       actually measures 3 cm on the glass. Change --cue-gap to retune. */
+    --cue-gap:148px;    /* ~3 cm as seen */
+    --arrow-h:205px;
     --orb:66px;
-    margin:0 0 40px;
+    margin:0 0 76px;    /* clearance between the note and the head */
   }
   .cue-label{
     font-family:var(--hand);font-weight:600;
@@ -322,7 +326,7 @@
     .portrait-frame{max-width:190px}
     .cue-label{font-size:24px}
     /* A 3 cm drop eats a phone screen, so the cue closes up here. */
-    .portrait-cta{--cue-gap:1.6cm;--arrow-h:118px;margin-bottom:26px}
+    .portrait-cta{--cue-gap:80px;--arrow-h:120px;margin-bottom:34px}
   }
 
   /* Headphone note: mono and rule-marked so it reads as an aside from
@@ -844,10 +848,13 @@
 
     // One pad note: a small detuned stack through a slowly opening
     // lowpass, with a 5-9s attack so entries are never audible as events.
-    function pad(v){
+    // `fast` shortens the attack for the voices that open the piece, so
+    // the bed arrives in a second or two instead of fading up out of
+    // nothing over most of a minute.
+    function pad(v, fast){
       var t = ctx.currentTime,
           f = mtof(pool[Math.floor(Math.random()*pool.length)]),
-          A = rnd(5,9), H = rnd(4,10), R = rnd(7,12),
+          A = fast ? rnd(1.1,2.0) : rnd(5,9), H = rnd(4,10), R = rnd(7,12),
           span = A+H+R;
 
       var lp = ctx.createBiquadFilter();
@@ -954,7 +961,7 @@
 
       var g = ctx.createGain();
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.22, t+9);
+      g.gain.exponentialRampToValueAtTime(0.22, t+3);
 
       var spec = [[38,'sine',0.55],[38,'triangle',0.13],[45,'sine',0.20],[50,'sine',0.11]];
       for(var i=0;i<spec.length;i++){
@@ -1051,12 +1058,15 @@
 
       master.gain.cancelScheduledValues(ctx.currentTime);
       master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
-      master.gain.linearRampToValueAtTime(vol, ctx.currentTime + 3);
+      master.gain.linearRampToValueAtTime(vol, ctx.currentTime + 1.2);
 
       voices.forEach(function(v,i){
-        timers.push(setTimeout(function(){ if(state==='playing') pad(v); }, i*1700));
+        timers.push(setTimeout(function(){ if(state==='playing') pad(v, true); }, i*420));
         loopVoice(v);
       });
+      // One early strike, so the first thing heard is an event rather
+      // than a swell that might read as nothing happening.
+      timers.push(setTimeout(function(){ if(state==='playing') bell(); }, 1300));
 
       bellTimer  = setInterval(function(){ if(state==='playing' && Math.random()<0.7) bell(); }, 11000);
       poolTimer  = setInterval(function(){ pool = POOLS[Math.floor(Math.random()*POOLS.length)]; }, 62000);
