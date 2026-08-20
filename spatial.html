@@ -166,10 +166,7 @@
   .btn.primary:hover{background:#4fd0b6}
 
   /* ---------- SPECTRUM SIGNATURE ---------- */
-  /* With no invented envelope, silence collapses every bar to nothing -
-     so the row keeps a baseline to read zero against. */
-  .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0;
-            border-bottom:1px solid var(--line-2)}
+  .spectrum{display:flex;align-items:flex-end;gap:3px;height:88px;margin:52px 0 0}
   .spectrum .bar{
     /* align-items:flex-end stops the bars from stretching, so they need an
        explicit height for scaleY(--h) to have anything to scale. */
@@ -1143,6 +1140,10 @@
     var W = 0, H = 0, dpr = 1;
     var t0 = performance.now();
 
+    // A display floor, not a signal: the reading stays zero, the bins just
+    // stay locatable instead of vanishing into the background.
+    var REST = 0.01;
+
     var barEls = [];
     var spectrumEl = document.getElementById('spectrum');
     var capEl = document.getElementById('fft-cap'), capSignal = null;
@@ -1270,7 +1271,7 @@
       if(!barEls.length) return;
       for(var i=0;i<barEls.length;i++){
         var v = band[Math.round(i/(barEls.length-1)*(BANDS-1))];
-        barEls[i].style.setProperty('--h', Math.min(1, v*1.15).toFixed(3));
+        barEls[i].style.setProperty('--h', Math.max(REST, Math.min(1, v*1.15)).toFixed(3));
       }
     }
 
@@ -1333,7 +1334,7 @@
       var N = 56, html = '';
       for(var i=0;i<N;i++){
         var t = i/(N-1), c = ramp(t);
-        html += '<span class="bar" style="--h:0;--barc:rgb('+c[0]+','+c[1]+','+c[2]+')"></span>';
+        html += '<span class="bar" style="--h:0.01;--barc:rgb('+c[0]+','+c[1]+','+c[2]+')"></span>';
       }
       spectrumEl.innerHTML = html;
       spectrumEl.classList.add('live');
